@@ -24,7 +24,7 @@ RUN cd tools && wget https://github.com/samtools/samtools/releases/download/1.11
 
 
 # Install Java requirement and Varscan
-RUN wget  -O /usr/local/bin/VarScan.jar https://github.com/dkoboldt/varscan/releases/download/2.4.2/VarScan.v2.4.2.jar
+RUN wget  -O /tools/VarScan.jar https://github.com/dkoboldt/varscan/releases/download/2.4.2/VarScan.v2.4.2.jar
 
 # Install VT 
 RUN cd tools && wget https://github.com/atks/vt/archive/0.5772.tar.gz && tar -zxvf 0.5772.tar.gz && cd vt-0.5772/ && make && cp vt /usr/local/bin/ && cd $HOME
@@ -45,3 +45,16 @@ RUN R -e "install.packages('cowplot', dependencies=TRUE, repos='http://cran.rstu
 
 # Install python3 packages
 RUN pip3 install pysam cyvcf2 snakemake numpy pandas matplotlib scipy 
+
+# Download GATK3.8 
+RUN cd tools && wget https://storage.googleapis.com/gatk-software/package-archive/gatk/GenomeAnalysisTK-3.8-1-0-gf15c1c3ef.tar.bz2 && tar xjvf GenomeAnalysisTK-3.8-1-0-gf15c1c3ef.tar.bz2 && mv GenomeAnalysisTK-3.8-1-0-gf15c1c3ef/GenomeAnalysisTK.jar . && cd $HOME
+
+# Download picard
+RUN cd tools && wget https://github.com/broadinstitute/picard/releases/download/2.25.0/picard.jar && cd $HOME
+
+# Download Sambamba
+RUN cd tools && wget https://github.com/biod/sambamba/releases/download/v0.6.8/sambamba-0.6.8-linux-static.gz && gunzip sambamba-0.6.8-linux-static.gz && mv sambamba-0.6.8-linux-static /usr/local/bin/sambamba && chmod +x /usr/local/bin/sambamba && cd $HOME 
+
+# Clean up
+RUN cd tools && rm -f *.tar.bz2 && rm -f *.tar.gz && cd $HOME 
+
