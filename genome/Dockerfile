@@ -1,9 +1,8 @@
-# cjyoon/python3.8:1.0.0
 FROM ubuntu:focal
 ENV DEBIAN_FRONTEND noninteractive
 
 # Upgrade installed packages
-RUN apt-get update && apt-get install -y -f autoconf automake make gcc perl zlib1g-dev libbz2-dev liblzma-dev libcurl4-gnutls-dev libssl-dev libncurses5-dev default-jre bwa bedtools build-essential python3.8 python3.8-venv python3-pip python3.8-dev git wget vim less software-properties-common python-is-python3
+RUN apt-get update && apt-get install -y -f autoconf automake make gcc perl zlib1g-dev libbz2-dev liblzma-dev libcurl4-gnutls-dev libssl-dev libncurses5-dev bwa bedtools build-essential python3.8 python3.8-venv python3-pip python3.8-dev git wget vim less software-properties-common python-is-python3 openjdk-8-jdk
 
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
 	add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/' && \
@@ -47,8 +46,7 @@ RUN R -e "install.packages('cowplot', dependencies=TRUE, repos='http://cran.rstu
 RUN pip3 install pysam cyvcf2 snakemake numpy pandas matplotlib scipy 
 
 # Download GATK3.8 
-RUN cd tools && wget https://storage.googleapis.com/gatk-software/package-archive/gatk/GenomeAnalysisTK-3.8-1-0-gf15c1c3ef.tar.bz2 && tar xjvf GenomeAnalysisTK-3.8-1-0-gf15c1c3ef.tar.bz2 && mv GenomeAnalysisTK-3.8-1-0-gf15c1c3ef/GenomeAnalysisTK.jar . && cd $HOME
-
+RUN cd tools && wget https://storage.googleapis.com/gatk-software/package-archive/gatk/GenomeAnalysisTK-3.8-1-0-gf15c1c3ef.tar.bz2 && tar xjvf GenomeAnalysisTK-3.8-1-0-gf15c1c3ef.tar.bz2 && mv GenomeAnalysisTK-3.8-1-0-gf15c1c3ef/GenomeAnalysisTK.jar . && rm -rf GenomeAnalysisTK-3.8-1-0-gf15c1c3ef* && cd $HOME
 # Download picard
 RUN cd tools && wget https://github.com/broadinstitute/picard/releases/download/2.25.0/picard.jar && cd $HOME
 
